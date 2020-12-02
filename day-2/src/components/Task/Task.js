@@ -1,5 +1,5 @@
 import React from 'react'
-
+import {DataContext} from "../../App";
 
 
 const Task = ({task, onClickAction, onDeleteAction}) => {
@@ -17,18 +17,30 @@ const Task = ({task, onClickAction, onDeleteAction}) => {
     }
 
     return (
-        <div className={task.deleted?'input-group mb-3 ml-4': 'input-group mb-3'}>
-            <div className="input-group-prepend">
-                <div className="input-group-text">
-                    <input type="checkbox" defaultChecked={task.checked} />
-                </div>
-            </div>
-            <input type="text" className="form-control" ref={inputText} defaultValue={task.title} disabled={true}/>
-            <div className="input-group-append">
-                <button onClick={handlerClick} className="btn btn-outline-secondary">Редактировать</button>
-                <button className="btn btn-outline-secondary" onClick={onDeleteAction}>Удалить</button>
-            </div>
-        </div>
+
+            <DataContext.Consumer>
+                {
+                    ({data}) => {
+                        const taskData = data.find(el => task.id === el.id)
+                        return (
+                            <div className={taskData.deleted?'input-group mb-3 ml-4': 'input-group mb-3'}>
+                            <div className="input-group-prepend">
+                                <div className="input-group-text">
+                                    <input type="checkbox" defaultChecked={taskData.checked} />
+                                </div>
+                            </div>
+                        <input type="text" className="form-control" ref={inputText} defaultValue={taskData.title} disabled={true}/>
+                        <div className="input-group-append">
+                            <button onClick={handlerClick} className="btn btn-outline-secondary">Редактировать</button>
+                            <button className="btn btn-outline-secondary" onClick={onDeleteAction}>Удалить</button>
+                        </div>
+                            </div>
+                        )
+
+                    }
+                }
+            </DataContext.Consumer>
+
     )
 }
 

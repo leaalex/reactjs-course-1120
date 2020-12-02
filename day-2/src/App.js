@@ -4,13 +4,14 @@ import './App.css';
 // Components
 import Task from "./components/Task/Task";
 import TaskList from "./components/TaskList/TaskList";
-import NewTask, {inputText} from "./components/NewTask/NewTask";
+import NewTask from "./components/NewTask/NewTask";
 
 //utils
 import { genId } from './utils/index'
 
 
 
+export const DataContext = React.createContext('')
 
 
 
@@ -45,9 +46,11 @@ class App extends Component {
         element.deleted = !element.deleted
         this.setState({data: [...this.state.data]})
     }
+    componentDidMount() {
+        console.log('componentDidMount', document.querySelector('.container'))
+    }
 
-
-  render() {
+    render() {
         console.log('render', genId())
     const tasklist = this.state.data.filter(task => !task.deleted).map(task => (
         <Task
@@ -58,16 +61,20 @@ class App extends Component {
         />
         ))
 
-
     return (
         <div className="container p-3">
-            <NewTask create={this.newTask}/>
-            <TaskList data={this.state.data}
-                      filter={this.state.filter}
-                      delete={this.handlerDeleteAction}
-                      change={this.handlerClickAction}
-                      changeFilter={this.changeFilter}
+            <NewTask
+                create={this.newTask}
             />
+            <DataContext.Provider value={{data: this.state.data}}>
+            <TaskList
+                data={this.state.data}
+                filter={this.state.filter}
+                delete={this.handlerDeleteAction}
+                change={this.handlerClickAction}
+                changeFilter={this.changeFilter}
+            />
+            </DataContext.Provider>
         </div>
 
     );
