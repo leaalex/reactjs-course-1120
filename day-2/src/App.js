@@ -1,27 +1,34 @@
 import React, {Component} from "react";
 import './App.css';
 
+// Components
+import Task from "./components/Task/Task";
+
+//utils
+import { genId } from './utils/index'
+
+
 const inputText = React.createRef()
 
 class App extends Component {
     state = {
         data: [
-            {id: 1, title: 'Купить хлеба', checked: true},
-            {id: 2, title: 'Помыть машину', checked: false},
-            {id: 3, title: 'Изучить ReactJS', checked: true},
-            {id: 4, title: 'Хорошо поспать', checked: false},
+            {id: genId(), title: 'Купить хлеба', checked: true, deleted: false},
+            {id: genId(), title: 'Помыть машину', checked: false, deleted: false},
+            {id: genId(), title: 'Изучить ReactJS', checked: true, deleted: false},
+            {id: genId(), title: 'Хорошо поспать', checked: false, deleted: false},
         ],
     }
 
   handlerClick = (event) => {
-      const newTask = {id: 5, title: inputText.current.value, checked: false}
-      this.setState({data: [...this.state.data, newTask], inputText: ''})
-      inputText.current.value = ''
+      const newTask = {id: genId(), title: inputText.current.value, checked: false,  deleted: false}
+      this.setState({data: [...this.state.data, newTask]})
+          inputText.current.value = ''
   }
 
   handlerKeyUp = (event) => {
         if (event.code === 'Enter'){
-            const newTask = {id: 5, title: event.target.value, checked: false}
+            const newTask = {id: genId(), title: event.target.value, checked: false, deleted: false}
             this.setState({data: [...this.state.data, newTask]})
             event.target.value = ''
         } if (event.code === 'Escape') {
@@ -29,19 +36,21 @@ class App extends Component {
           event.target.blur()
       }
   }
+  handlerClickAction = (id) => (title) => {
+        const element = this.state.data.find(el => el.id === id)
+        element.title = title
+        this.setState({data: [...this.state.data]})
+  }
 
 
   render() {
-        console.log('render', this.state)
+        console.log('render', genId())
     const tasklist = this.state.data.map(task => (
-        <div key={task.id} className="input-group mb-3">
-            <div className="input-group-prepend">
-                <div className="input-group-text">
-                    <input type="checkbox" defaultChecked={task.checked} />
-                </div>
-            </div>
-            <input type="text" className="form-control" defaultValue={task.title}/>
-        </div>
+        <Task
+            key={task.id}
+            task={task}
+            onClickAction={this.handlerClickAction(task.id)}
+        />
         ))
 
 
@@ -67,3 +76,4 @@ class App extends Component {
 }
 
 export default App;
+
