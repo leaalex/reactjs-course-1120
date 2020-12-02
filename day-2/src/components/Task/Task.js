@@ -2,7 +2,7 @@ import React from 'react'
 
 
 
-const Task = ({task, onClickAction}) => {
+const Task = ({task, onClickAction, onDeleteAction}) => {
     const inputText = React.createRef()
 
     const handlerClick = (event) => {
@@ -26,7 +26,7 @@ const Task = ({task, onClickAction}) => {
             <input type="text" className="form-control" ref={inputText} defaultValue={task.title} disabled={true}/>
             <div className="input-group-append">
                 <button onClick={handlerClick} className="btn btn-outline-secondary">Редактировать</button>
-                <button className="btn btn-outline-secondary">Удалить</button>
+                <button className="btn btn-outline-secondary" onClick={onDeleteAction}>Удалить</button>
             </div>
         </div>
     )

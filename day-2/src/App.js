@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   handlerKeyUp = (event) => {
-        if (event.code === 'Enter'){
+        if (event.code === 'Enter' && event.target.value.length > 3){
             const newTask = {id: genId(), title: event.target.value, checked: false, deleted: false}
             this.setState({data: [...this.state.data, newTask]})
             event.target.value = ''
@@ -41,15 +41,21 @@ class App extends Component {
         element.title = title
         this.setState({data: [...this.state.data]})
   }
+  handlerDeleteAction = (id) => () => {
+        const element = this.state.data.find(el => el.id === id)
+        element.deleted = !element.deleted
+        this.setState({data: [...this.state.data]})
+    }
 
 
   render() {
         console.log('render', genId())
-    const tasklist = this.state.data.map(task => (
+    const tasklist = this.state.data.filter(task => !task.deleted).map(task => (
         <Task
             key={task.id}
             task={task}
             onClickAction={this.handlerClickAction(task.id)}
+            onDeleteAction={this.handlerDeleteAction(task.id)}
         />
         ))
 
