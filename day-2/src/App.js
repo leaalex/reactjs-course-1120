@@ -3,12 +3,16 @@ import './App.css';
 
 // Components
 import Task from "./components/Task/Task";
+import TaskList from "./components/TaskList/TaskList";
+import NewTask, {inputText} from "./components/NewTask/NewTask";
 
 //utils
 import { genId } from './utils/index'
 
 
-const inputText = React.createRef()
+
+
+
 
 class App extends Component {
     state = {
@@ -18,24 +22,19 @@ class App extends Component {
             {id: genId(), title: 'Изучить ReactJS', checked: true, deleted: false},
             {id: genId(), title: 'Хорошо поспать', checked: false, deleted: false},
         ],
+        filter: {deleted: false, checked: true}
     }
 
-  handlerClick = (event) => {
-      const newTask = {id: genId(), title: inputText.current.value, checked: false,  deleted: false}
-      this.setState({data: [...this.state.data, newTask]})
-          inputText.current.value = ''
-  }
+    newTask = (value) => {
+        const newTask = {id: genId(), title: value, checked: false,  deleted: false}
+        this.setState({data: [...this.state.data, newTask]})
+    }
 
-  handlerKeyUp = (event) => {
-        if (event.code === 'Enter' && event.target.value.length > 3){
-            const newTask = {id: genId(), title: event.target.value, checked: false, deleted: false}
-            this.setState({data: [...this.state.data, newTask]})
-            event.target.value = ''
-        } if (event.code === 'Escape') {
-          event.target.value = ''
-          event.target.blur()
-      }
-  }
+    changeFilter = (value) => {
+        this.setState({filter: {...this.state.filter, ...value}})
+    }
+
+
   handlerClickAction = (id) => (title) => {
         const element = this.state.data.find(el => el.id === id)
         element.title = title
@@ -62,19 +61,13 @@ class App extends Component {
 
     return (
         <div className="container p-3">
-            <div className="input-group mb-3">
-                <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Новая задача"
-                    onKeyUp={this.handlerKeyUp}
-                    ref={inputText}
-                        />
-                <div className="input-group-append">
-                    <button className="btn btn-outline-secondary" onClick={this.handlerClick}>+ Создать</button>
-                </div>
-            </div>
-            { tasklist }
+            <NewTask create={this.newTask}/>
+            <TaskList data={this.state.data}
+                      filter={this.state.filter}
+                      delete={this.handlerDeleteAction}
+                      change={this.handlerClickAction}
+                      changeFilter={this.changeFilter}
+            />
         </div>
 
     );

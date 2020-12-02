@@ -17,7 +17,7 @@ const Task = ({task, onClickAction, onDeleteAction}) => {
     }
 
     return (
-        <div className="input-group mb-3">
+        <div className={task.deleted?'input-group mb-3 ml-4': 'input-group mb-3'}>
             <div className="input-group-prepend">
                 <div className="input-group-text">
                     <input type="checkbox" defaultChecked={task.checked} />
