@@ -63,7 +63,7 @@ class App extends Component {
         ))
 
     return (
-        <div className="container p-3">
+        <React.Fragment>
             <NewTask
                 create={this.newTask}
             />
@@ -76,8 +76,7 @@ class App extends Component {
                 changeFilter={this.changeFilter}
             />
             </DataContext.Provider>
-        </div>
-
+        </React.Fragment>
     );
   }
 }
