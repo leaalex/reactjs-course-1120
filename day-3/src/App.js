@@ -1,59 +1,66 @@
 import React, {Component} from "react";
 import './App.css';
-import {connect} from 'react-redux'
+
+// Components
+import Task from "./components/Task/Task";
+import TaskList from "./components/TaskList/TaskList";
+import NewTask from "./components/NewTask/NewTask";
+
+//utils
+import { genId } from './utils/index'
 
 
-// class App extends Component {
-//     state = {
-//         counter: 0
-//     }
-//     addCounter = () => {
-//         this.setState({counter: this.state.counter + 1})
-//     }
-//     subCounter = () => {
-//         this.setState({counter: this.state.counter - 1})
-//     }
-//
-//     render() {
-//     return (
-//         <React.Fragment>
-//             <div className='container text-center'>
-//                 <div><h1>{this.state.counter}</h1></div>
-//                 <button className='btn btn-primary' onClick={this.addCounter}>+</button>
-//                 <button className='btn btn-primary' onClick={this.subCounter}>-</button>
-//             </div>
-//             <div className='container text-center'>
-//                 <div><h1>{this.props.counter}</h1></div>
-//                 <button className='btn btn-primary' onClick={this.props.addCounter}>+</button>
-//                 <button className='btn btn-primary' onClick={this.props.subCounter}>-</button>
-//             </div>
-//         </React.Fragment>
-//     );
-//   }
-// }
+
+export const DataContext = React.createContext('')
 
 
-const App = (props) => (
-    <React.Fragment>
-        <div className='container text-center'>
-            <div><h1>{props.counter}</h1></div>
-            <button className='btn btn-primary' onClick={props.addCounter}>+</button>
-            <button className='btn btn-primary' onClick={props.subCounter}>-</button>
-        </div>
-    </React.Fragment>
-)
 
-// redux
-function mapStateToProps(state){
-    return {counter: state.counter}
-}
 
-function mapDispatchToProps(dispatch){
-    return {
-        addCounter: () => dispatch({type: "ADD"}),
-        subCounter: () => dispatch({type: "SUB"}),
+class App extends Component {
+    state = {
+        filter: {deleted: false, checked: true}
     }
+
+    newTask = (value) => {
+        const newTask = {id: genId(), title: value, checked: false,  deleted: false}
+        this.setState({data: [...this.state.data, newTask]})
+    }
+
+    changeFilter = (value) => {
+        this.setState({filter: {...this.state.filter, ...value}})
+    }
+
+
+  handlerClickAction = (id) => (title) => {
+        const element = this.state.data.find(el => el.id === id)
+        element.title = title
+        this.setState({data: [...this.state.data]})
+  }
+  handlerDeleteAction = (id) => () => {
+        const element = this.state.data.find(el => el.id === id)
+        element.deleted = !element.deleted
+        this.setState({data: [...this.state.data]})
+    }
+    componentDidMount() {
+        console.log('componentDidMount', document.querySelector('.container'))
+    }
+
+    render() {
+    return (
+        <React.Fragment>
+            <NewTask
+                create={this.newTask}
+            />
+            <DataContext.Provider value={{data: this.state.data}}>
+            <TaskList
+                filter={this.state.filter}
+                changeFilter={this.changeFilter}
+            />
+            </DataContext.Provider>
+        </React.Fragment>
+    );
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
 

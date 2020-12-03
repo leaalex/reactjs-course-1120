@@ -1,6 +1,7 @@
 import React from 'react'
 import Task from "../Task/Task";
 import addContainer from "../../hoc/addContainer";
+import {connect} from "react-redux";
 
 
 
@@ -14,8 +15,6 @@ const TaskList = (props) => {
         <Task
             key={task.id}
             task={task}
-            onClickAction={props.change(task.id)}
-            onDeleteAction={props.delete(task.id)}
         />
     ))
     return (
@@ -31,4 +30,10 @@ const TaskList = (props) => {
         </div>
     )}
 
-export default  addContainer(TaskList, 'p-4')
+function mapStateToProps(state){
+    return {data: state.data}
+}
+
+
+
+export default  connect(mapStateToProps)(TaskList)
