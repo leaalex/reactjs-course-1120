@@ -1,85 +1,59 @@
 import React, {Component} from "react";
 import './App.css';
-
-// Components
-import Task from "./components/Task/Task";
-import TaskList from "./components/TaskList/TaskList";
-import NewTask from "./components/NewTask/NewTask";
-
-//utils
-import { genId } from './utils/index'
+import {connect} from 'react-redux'
 
 
+// class App extends Component {
+//     state = {
+//         counter: 0
+//     }
+//     addCounter = () => {
+//         this.setState({counter: this.state.counter + 1})
+//     }
+//     subCounter = () => {
+//         this.setState({counter: this.state.counter - 1})
+//     }
+//
+//     render() {
+//     return (
+//         <React.Fragment>
+//             <div className='container text-center'>
+//                 <div><h1>{this.state.counter}</h1></div>
+//                 <button className='btn btn-primary' onClick={this.addCounter}>+</button>
+//                 <button className='btn btn-primary' onClick={this.subCounter}>-</button>
+//             </div>
+//             <div className='container text-center'>
+//                 <div><h1>{this.props.counter}</h1></div>
+//                 <button className='btn btn-primary' onClick={this.props.addCounter}>+</button>
+//                 <button className='btn btn-primary' onClick={this.props.subCounter}>-</button>
+//             </div>
+//         </React.Fragment>
+//     );
+//   }
+// }
 
-export const DataContext = React.createContext('')
 
+const App = (props) => (
+    <React.Fragment>
+        <div className='container text-center'>
+            <div><h1>{props.counter}</h1></div>
+            <button className='btn btn-primary' onClick={props.addCounter}>+</button>
+            <button className='btn btn-primary' onClick={props.subCounter}>-</button>
+        </div>
+    </React.Fragment>
+)
 
-
-
-class App extends Component {
-    state = {
-        data: [
-            {id: genId(), title: 'Купить хлеба', checked: true, deleted: false},
-            {id: genId(), title: 'Помыть машину', checked: false, deleted: false},
-            {id: genId(), title: 'Изучить ReactJS', checked: true, deleted: false},
-            {id: genId(), title: 'Хорошо поспать', checked: false, deleted: false},
-        ],
-        filter: {deleted: false, checked: true}
-    }
-
-    newTask = (value) => {
-        const newTask = {id: genId(), title: value, checked: false,  deleted: false}
-        this.setState({data: [...this.state.data, newTask]})
-    }
-
-    changeFilter = (value) => {
-        this.setState({filter: {...this.state.filter, ...value}})
-    }
-
-
-  handlerClickAction = (id) => (title) => {
-        const element = this.state.data.find(el => el.id === id)
-        element.title = title
-        this.setState({data: [...this.state.data]})
-  }
-  handlerDeleteAction = (id) => () => {
-        const element = this.state.data.find(el => el.id === id)
-        element.deleted = !element.deleted
-        this.setState({data: [...this.state.data]})
-    }
-    componentDidMount() {
-        console.log('componentDidMount', document.querySelector('.container'))
-    }
-
-    render() {
-        console.log('render', genId())
-    const tasklist = this.state.data.filter(task => !task.deleted).map(task => (
-        <Task
-            key={task.id}
-            task={task}
-            onClickAction={this.handlerClickAction(task.id)}
-            onDeleteAction={this.handlerDeleteAction(task.id)}
-        />
-        ))
-
-    return (
-        <React.Fragment>
-            <NewTask
-                create={this.newTask}
-            />
-            <DataContext.Provider value={{data: this.state.data}}>
-            <TaskList
-                data={this.state.data}
-                filter={this.state.filter}
-                delete={this.handlerDeleteAction}
-                change={this.handlerClickAction}
-                changeFilter={this.changeFilter}
-            />
-            </DataContext.Provider>
-        </React.Fragment>
-    );
-  }
+// redux
+function mapStateToProps(state){
+    return {counter: state.counter}
 }
 
-export default App;
+function mapDispatchToProps(dispatch){
+    return {
+        addCounter: () => dispatch({type: "ADD"}),
+        subCounter: () => dispatch({type: "SUB"}),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 

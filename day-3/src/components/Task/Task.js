@@ -1,5 +1,5 @@
 import React from 'react'
-import {DataContext} from "../../App";
+import {DataContext} from "../../App.old";
 
 
 const Task = ({task, onClickAction, onDeleteAction}) => {
