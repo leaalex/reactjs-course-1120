@@ -31,7 +31,7 @@ const TaskList = (props) => {
     )}
 
 function mapStateToProps(state){
-    return {data: state.data}
+    return {data: state.tasklist.data}
 }
 
 

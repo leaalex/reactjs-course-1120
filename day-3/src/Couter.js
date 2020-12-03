@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import './App.css';
 import {connect} from 'react-redux'
+import {add, sub} from "./redux/actions/actionList";
 
 
 // class Counter extends Component {
@@ -50,8 +51,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return {
-        addCounter: () => dispatch({type: "ADD"}),
-        subCounter: () => dispatch({type: "SUB"}),
+        addCounter: () => dispatch(add()),
+        subCounter: () => dispatch(sub()),
     }
 }
 

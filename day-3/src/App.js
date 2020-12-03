@@ -48,9 +48,7 @@ class App extends Component {
     render() {
     return (
         <React.Fragment>
-            <NewTask
-                create={this.newTask}
-            />
+            <NewTask />
             <DataContext.Provider value={{data: this.state.data}}>
             <TaskList
                 filter={this.state.filter}

@@ -1,6 +1,7 @@
 import React from 'react'
 import {DataContext} from "../../App";
 import {connect} from "react-redux";
+import {del, del_async} from "../../redux/actions/actionList";
 
 
 const Task = ({task, onClickAction, deleteTask, checkTask}) => {
@@ -39,8 +40,8 @@ const Task = ({task, onClickAction, deleteTask, checkTask}) => {
 
 function mapDispatchToProps(dispatch){
     return {
-        deleteTask: (id) => dispatch({type: "DELETE_TASK", value:id}),
-        checkTask: (id) => dispatch({type: "CHECK_TASK", value:id}),
+        deleteTask: (id) => dispatch(del(id)),
+        checkTask: (id) => dispatch(del_async(id))
     }
 }
 

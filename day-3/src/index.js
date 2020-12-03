@@ -4,11 +4,22 @@ import './index.css';
 import App from './App';
 
 //redux
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
 import rootReducer from './redux/rootReducer'
 import { Provider } from 'react-redux'
+import thunk from "redux-thunk";
 
-const store = createStore(rootReducer)
+const log = (store) => (next) => (action) => {
+    console.log('MW1',store.getState());
+    const result = next(action)
+    console.log('MW1',store.getState());
+    return result
+}
+
+
+
+
+const store = createStore(rootReducer, applyMiddleware(thunk, log))
 
 
 const app = (
