@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import './App.css';
+import './App.module.css';
 import {connect} from 'react-redux'
 import {add, sub} from "./redux/actions/actionList";
 

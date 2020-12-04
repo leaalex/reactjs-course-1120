@@ -37,6 +37,7 @@ class TaskListPage extends React.Component {
 
 
     render() {
+
         return (
             <React.Fragment>
                 <h1>TaskList</h1>
@@ -44,6 +45,7 @@ class TaskListPage extends React.Component {
                 <TaskList
                     filter={this.state.filter}
                     changeFilter={this.changeFilter}
+                    {...this.props}
                 />
             </React.Fragment>
         );
