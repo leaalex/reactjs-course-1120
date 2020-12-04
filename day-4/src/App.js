@@ -1,64 +1,31 @@
-import React, {Component} from "react";
+import React from "react";
 import './App.css';
 
 // Components
-import Task from "./components/Task/Task";
-import TaskList from "./components/TaskList/TaskList";
-import NewTask from "./components/NewTask/NewTask";
-
-//utils
-import { genId } from './utils/index'
+import Nav from "./components/Nav/Nav";
 
 
+// route
+import  {Route, Switch} from 'react-router-dom'
 
-export const DataContext = React.createContext('')
+// page
+import HomePage from "./pages/HomePage";
+import TaskListPage from "./pages/TaskListPage";
+import AboutPage from "./pages/About";
 
+const  App = ()  =>  (
+            <>
+                <Nav />
+                <div className="container">
+                    <Switch>
+                        <Route path='/' exact render={() => <HomePage leng='en' />}/>
+                        <Route path='/tasklist' component={TaskListPage}/>
+                        <Route path='/about' component={AboutPage}/>
+                        <Route render={()=> <h1>404</h1>}/>
+                    </Switch>
+                </div>
+            </>
+        )
 
-
-
-class App extends Component {
-    state = {
-        filter: {deleted: false, checked: true}
-    }
-
-    newTask = (value) => {
-        const newTask = {id: genId(), title: value, checked: false,  deleted: false}
-        this.setState({data: [...this.state.data, newTask]})
-    }
-
-    changeFilter = (value) => {
-        this.setState({filter: {...this.state.filter, ...value}})
-    }
-
-
-  handlerClickAction = (id) => (title) => {
-        const element = this.state.data.find(el => el.id === id)
-        element.title = title
-        this.setState({data: [...this.state.data]})
-  }
-  handlerDeleteAction = (id) => () => {
-        const element = this.state.data.find(el => el.id === id)
-        element.deleted = !element.deleted
-        this.setState({data: [...this.state.data]})
-    }
-    componentDidMount() {
-        console.log('componentDidMount', document.querySelector('.container'))
-    }
-
-    render() {
-    return (
-        <React.Fragment>
-            <NewTask />
-            <DataContext.Provider value={{data: this.state.data}}>
-            <TaskList
-                filter={this.state.filter}
-                changeFilter={this.changeFilter}
-            />
-            </DataContext.Provider>
-        </React.Fragment>
-    );
-  }
-}
-
-export default App;
+export default App
 
