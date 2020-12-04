@@ -1,5 +1,5 @@
 import React from 'react'
-import style from './App.module.css'
+import style from './App.module.scss'
 
 // Components
 import Nav from './components/Nav/Nav'

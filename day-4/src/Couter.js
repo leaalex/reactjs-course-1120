@@ -1,5 +1,5 @@
 import React from 'react'
-import './App.module.css'
+import './App.module.scss'
 import { connect } from 'react-redux'
 import { add, sub } from './redux/actions/actionList'
 
