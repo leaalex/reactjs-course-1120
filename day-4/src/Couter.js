@@ -1,8 +1,7 @@
-import React, {Component} from "react";
-import './App.module.css';
-import {connect} from 'react-redux'
-import {add, sub} from "./redux/actions/actionList";
-
+import React from 'react'
+import './App.module.css'
+import { connect } from 'react-redux'
+import { add, sub } from './redux/actions/actionList'
 
 // class Counter extends Component {
 //     state = {
@@ -33,7 +32,6 @@ import {add, sub} from "./redux/actions/actionList";
 //   }
 // }
 
-
 const Counter = (props) => (
     <React.Fragment>
         <div className='container text-center'>
@@ -45,16 +43,15 @@ const Counter = (props) => (
 )
 
 // redux
-function mapStateToProps(state){
-    return {counter: state.counter}
+function mapStateToProps (state) {
+  return { counter: state.counter }
 }
 
-function mapDispatchToProps(dispatch){
-    return {
-        addCounter: () => dispatch(add()),
-        subCounter: () => dispatch(sub()),
-    }
+function mapDispatchToProps (dispatch) {
+  return {
+    addCounter: () => dispatch(add()),
+    subCounter: () => dispatch(sub())
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Counter);
-
+export default connect(mapStateToProps, mapDispatchToProps)(Counter)
