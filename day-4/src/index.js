@@ -1,29 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './App'
 
-//redux
-import {createStore, applyMiddleware} from "redux";
+// redux
+import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './redux/rootReducer'
 import { Provider } from 'react-redux'
-import thunk from "redux-thunk";
+import thunk from 'redux-thunk'
 
 // route
-import {BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom'
 
 const log = (store) => (next) => (action) => {
-    console.log('MW1',store.getState());
-    const result = next(action)
-    console.log('MW1',store.getState());
-    return result
+  console.log('MW1', store.getState())
+  const result = next(action)
+  console.log('MW1', store.getState())
+  return result
 }
 
-
-
-
 const store = createStore(rootReducer, applyMiddleware(thunk, log))
-
 
 const app = (
     <Provider store={store}>
@@ -34,6 +30,6 @@ const app = (
 )
 
 ReactDOM.render(
-    app,
+  app,
   document.getElementById('root')
-);
+)

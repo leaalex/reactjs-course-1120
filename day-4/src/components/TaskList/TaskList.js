@@ -2,7 +2,7 @@ import React from 'react'
 import Task from '../Task/Task'
 
 import { connect } from 'react-redux'
-import { Route, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 let TaskAbout = (props) => {
   console.log('TaskAbout', props)

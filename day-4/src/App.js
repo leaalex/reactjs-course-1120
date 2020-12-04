@@ -14,19 +14,19 @@ import AboutPage from './pages/About'
 
 console.log('style', style)
 const App = () => (
-            <>
-                <Nav />
-                <div className={style.mainblock}>
-                <div className="container">
-                    <Switch>
-                        <Route path='/' exact render={() => <HomePage leng='en' />}/>
-                        <Route path='/tasklist' component={TaskListPage}/>
-                        <Route path='/about' component={AboutPage}/>
-                        <Route render={() => <h1>404</h1>}/>
-                    </Switch>
-                </div>
-                </div>
-            </>
+    <>
+        <Nav/>
+        <div className={style.mainblock}>
+            <div className="container">
+                <Switch>
+                    <Route path='/' exact render={() => <HomePage leng='en'/>}/>
+                    <Route path='/tasklist' component={TaskListPage}/>
+                    <Route path='/about' component={AboutPage}/>
+                    <Route render={() => <h1>404</h1>}/>
+                </Switch>
+            </div>
+        </div>
+    </>
 )
 
 export default App
